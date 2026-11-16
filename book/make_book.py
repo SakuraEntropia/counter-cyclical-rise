@@ -72,6 +72,15 @@ def main() -> None:
         cwd=ROOT, check=True,
     )
 
+    tex = (ROOT / "content.tex").read_text(encoding="utf-8")
+    tex = re.sub(
+        r"\\chapter\{尾声：如果幸运的话\}\\label\{[^}]*\}",
+        "\\\\chapter*{尾声：如果幸运的话}\n"
+        "\\\\addcontentsline{toc}{chapter}{尾声：如果幸运的话}\n"
+        "\\\\markboth{尾声：如果幸运的话}{}",
+        tex,
+    )
+    (ROOT / "content.tex").write_text(tex, encoding="utf-8")
     print("wrote book.md and content.tex")
     for line in book_md.splitlines():
         if line.startswith("#"):
