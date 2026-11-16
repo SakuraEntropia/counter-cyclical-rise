@@ -80,6 +80,11 @@ def main() -> None:
         "\\\\markboth{尾声：如果幸运的话}{}",
         tex,
     )
+    marker = "\\chapter*{尾声：如果幸运的话}"
+    if marker in tex:
+        head, tail = tex.split(marker, 1)
+        tail = tail.replace("\\section{", "\\section*{").replace("\\subsection{", "\\subsection*{")
+        tex = head + marker + tail
     (ROOT / "content.tex").write_text(tex, encoding="utf-8")
     print("wrote book.md and content.tex")
     for line in book_md.splitlines():
